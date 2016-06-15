@@ -1,3 +1,4 @@
+require 'nokogiri'
 require_relative "./euro_2016/version"
 
 module Euro2016
