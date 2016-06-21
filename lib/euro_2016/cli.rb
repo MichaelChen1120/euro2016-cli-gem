@@ -8,10 +8,8 @@ class Euro2016::CLI
   end
 
   def list_games
-    @games = Euro2016::Game.today
-    @games.each.with_index(1) do |game, i|
-      puts "#{i}. #{game.name} #{game.time}"
-    end
+    puts "Here's today's games:"
+    @games=Euro2016::Game.today
   end
 
   def menu
