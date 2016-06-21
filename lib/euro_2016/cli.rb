@@ -8,7 +8,6 @@ class Euro2016::CLI
   end
 
   def list_games
-    puts "Here's today's games:"
     @games=Euro2016::Game.today
   end
 
