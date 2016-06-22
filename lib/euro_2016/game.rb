@@ -14,10 +14,13 @@ class Euro2016::Game
   def self.scrape_games
     doc=Nokogiri::HTML(open("http://www.espnfc.us/european-championship/74/scores"))
     games=doc.css("div.score-box")
-    games.css("a.primary-link").each do |game|
-      puts game.attribute("href").text
+    urls=games.css("a.primary-link").collect do |game|
+      game.attribute("href").text
     end
-    binding.pry
+    names=games.css("div.team-name span").collect do |name|
+      name.text
+    end
+    "#{names}-#{urls}"
   end
 
 

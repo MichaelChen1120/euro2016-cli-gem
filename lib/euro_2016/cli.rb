@@ -8,7 +8,8 @@ class Euro2016::CLI
   end
 
   def list_games
-    @games=Euro2016::Game.today
+    binding.pry
+    Euro2016::Game.scrape_games
   end
 
   def menu
