@@ -8,8 +8,9 @@ class Euro2016::CLI
   end
 
   def list_games
-    binding.pry
-    Euro2016::Game.scrape_games
+    Euro2016::Game.all.each.with_index(1) do |game, i|
+      puts "#{i}. #{game}"
+    end
   end
 
   def menu
