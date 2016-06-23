@@ -1,6 +1,6 @@
 class Euro2016::Game
 
-  attr_accessor :name, :home_team, :away_team, :score, :goals, :channel, :report
+  attr_accessor :name, :home_team, :away_team, :score, :home_goals, :home_goal_time, :away_goals, :away_goal_time, :report
 
   def initialize(name=nil, url=nil)
     @name=name
@@ -30,6 +30,42 @@ class Euro2016::Game
 
   def self.all
     scrape_games
+  end
+
+  def self.find(id)
+    self.all(id-1)
+  end
+
+  def home_team
+    @home_team ||= doc.css("span[data-home-away='home']").text
+  end
+
+  def away_team
+    @away_team ||= doc.css("span[data-home-away='away']").text
+  end
+
+  def home_goals
+    @home_goals ||= doc.css("div[data-home-away='home'] ul[data-event-type='goal'] li").text
+  end
+
+  def away_goals
+    @away_goals ||= doc.css("div[data-home-away='away'] ul[data-event-type='goal'] li").text
+  end
+
+  def home_goal_time
+    @home_goal_time ||= doc.css("div[data-home-away='home'] ul[data-event-type='goal'] span").text
+  end
+
+  def away_goal_time
+    @away_goal_time ||= doc.css("div[data-home-away='away'] ul[data-event-type='goal'] span").text
+  end
+
+  def report
+    @report ||= doc.css("div.article-body p").text
+  end
+
+  def doc
+    @doc ||= Nokogiri::HTML(open(self.url))
   end
 
 

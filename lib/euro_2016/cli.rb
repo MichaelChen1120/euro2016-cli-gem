@@ -1,7 +1,7 @@
 class Euro2016::CLI
 
   def call
-    puts "Today's Euro 2016 games:"
+    puts "Most recent Euro 2016 games:"
     list_games
     menu
     goodbye
@@ -13,16 +13,23 @@ class Euro2016::CLI
     end
   end
 
+  def print_details(game)
+
+  end
+
   def menu
     input = nil
     while input != "exit"
-        puts "Enter the number for the score of the game or type games for today's games or type exit"
+        puts "Enter the number for the details of the game"
+        puts "Type games to view most recent games again"
+        puts "Type exit to exit"
       input = gets.strip.downcase
-      if input.to_i > 0
-        puts @games[input.to_i-1]
-      elsif input == "games"
+      if input == "games"
         list_games
-      else
+      elsif input.to_i > 0
+        if game == Euro2016::Game.find(input.to_i)
+          print_details(game)
+        end
       end
     end
   end
