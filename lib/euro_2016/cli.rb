@@ -9,12 +9,20 @@ class Euro2016::CLI
 
   def list_games
     Euro2016::Game.all.each.with_index(1) do |game, i|
-      puts "#{i}. #{game}"
+      puts "#{i}. #{game.name}"
     end
   end
 
   def print_details(game)
-
+    puts "Score"
+    puts "#{game.home_team} - #{game.away_team}"
+    puts ""
+    puts "Goals"
+    puts "#{game.home_goals} - #{game.away_goals}"
+    puts "#{game.home_goal_time} - #{game.away_goal_time}"
+    puts ""
+    puts "Report"
+    puts "#{game.report}"
   end
 
   def menu
@@ -27,9 +35,8 @@ class Euro2016::CLI
       if input == "games"
         list_games
       elsif input.to_i > 0
-        if game == Euro2016::Game.find(input.to_i)
+        game = Euro2016::Game.find(input.to_i)
           print_details(game)
-        end
       end
     end
   end

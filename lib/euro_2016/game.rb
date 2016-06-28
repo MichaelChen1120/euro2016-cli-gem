@@ -1,6 +1,6 @@
 class Euro2016::Game
 
-  attr_accessor :name, :home_team, :away_team, :score, :home_goals, :home_goal_time, :away_goals, :away_goal_time, :report
+  attr_accessor :name, :url, :home_team, :away_team, :score, :home_goals, :home_goal_time, :away_goals, :away_goal_time, :report
 
   def initialize(name=nil, url=nil)
     @name=name
@@ -10,30 +10,36 @@ class Euro2016::Game
   def self.scrape_games
     doc=Nokogiri::HTML(open("http://www.espnfc.us/european-championship/74/scores"))
     games=doc.css("div.score-box")
-    urls=games.css("a.primary-link").collect do |game|
+    links=games.css("a.primary-link").collect do |game|
       game.attribute("href").text
     end
-    names=games.css("div.team-name span").collect do |name|
-      name.text
+    teams=games.css("div.team-name span").collect do |team|
+      team.text
     end
-    @all=Array.new
-    @game_1 = "#{names[0]} vs #{names[1]} - #{urls[0]}"
-    @game_2 = "#{names[2]} vs #{names[3]} - #{urls[1]}"
-    @game_3 = "#{names[4]} vs #{names[5]} - #{urls[2]}"
-    @game_4 = "#{names[6]} vs #{names[7]} - #{urls[3]}"
-    @all << @game_1
-    @all << @game_2
-    @all << @game_3
-    @all << @game_4
-    @all
+    t=Array.new
+    urls=Array.new
+    @game_1 = "#{teams[0]} vs #{teams[1]}"
+    @game_2 = "#{teams[2]} vs #{teams[3]}"
+    @game_3 = "#{teams[4]} vs #{teams[5]}"
+    @game_4 = "#{teams[6]} vs #{teams[7]}"
+    @link_1 = "#{links[0]}"
+    @link_2 = "#{links[1]}"
+    @link_3 = "#{links[2]}"
+    @link_4 = "#{links[3]}"
+    t_1 = [@game_1,@link_1]
+    t_2 = [@game_2,@link_2]
+    t_3 = [@game_3,@link_3]
+    t_4 = [@game_4,@link_4]
+    all = [t_1,t_2,t_3,t_4]
+    all.collect {|g,l| new(g,l)}
   end
 
   def self.all
-    scrape_games
+    @@all ||= scrape_games
   end
 
   def self.find(id)
-    self.all(id-1)
+    self.all[id-1]
   end
 
   def home_team
@@ -67,7 +73,5 @@ class Euro2016::Game
   def doc
     @doc ||= Nokogiri::HTML(open(self.url))
   end
-
-
 
 end
