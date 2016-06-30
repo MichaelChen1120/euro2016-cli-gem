@@ -17,7 +17,6 @@ class Euro2016::Game
       team.text
     end
     t=Array.new
-    urls=Array.new
     @game_1 = "#{teams[0]} vs #{teams[1]}"
     @game_2 = "#{teams[2]} vs #{teams[3]}"
     @game_3 = "#{teams[4]} vs #{teams[5]}"
@@ -26,52 +25,70 @@ class Euro2016::Game
     @link_2 = "#{links[1]}"
     @link_3 = "#{links[2]}"
     @link_4 = "#{links[3]}"
+    all=Array.new
     t_1 = [@game_1,@link_1]
+    all << t_1
+    if @link_2 != ""
     t_2 = [@game_2,@link_2]
+    all << t_2
+    end
+    if @link_3 != ""
     t_3 = [@game_3,@link_3]
+    all << t_3
+    end
+    if @link_4 != ""
     t_4 = [@game_4,@link_4]
-    all = [t_1,t_2,t_3,t_4]
+    all << t_4
+    end
     all.collect {|g,l| new(g,l)}
   end
 
   def self.all
-    @@all ||= scrape_games
+    @@all = scrape_games
   end
 
   def self.find(id)
     self.all[id-1]
   end
 
-  def home_team
-    @home_team ||= doc.css("span[data-home-away='home']").text
+  def home_team_name
+    @home_team_name = doc.css("div[class='team away '] span.long-name").text
   end
 
-  def away_team
-    @away_team ||= doc.css("span[data-home-away='away']").text
+  def away_team_name
+    @away_team_name = doc.css("div[class='team home '] span.long-name").text
+  end
+
+  def home_team_score
+    @home_team_score = doc.css("span[data-home-away='home']").text.strip.gsub(/\s+/,' ')
+  end
+
+  def away_team_score
+    @away_team_score = doc.css("span[data-home-away='away']").text.strip.gsub(/\s+/,' ')
   end
 
   def home_goals
-    @home_goals ||= doc.css("div[data-home-away='home'] ul[data-event-type='goal'] li").text
+    @home_goals = doc.css("div[data-home-away='home'] ul[data-event-type='goal'] li").text.strip.gsub(/\s+/,' ')
   end
 
   def away_goals
-    @away_goals ||= doc.css("div[data-home-away='away'] ul[data-event-type='goal'] li").text
+    @away_goals = doc.css("div[data-home-away='away'] ul[data-event-type='goal'] li").text.strip.gsub(/\s+/,' ')
   end
 
   def home_goal_time
-    @home_goal_time ||= doc.css("div[data-home-away='home'] ul[data-event-type='goal'] span").text
+    @home_goal_time = doc.css("div[data-home-away='home'] ul[data-event-type='goal'] span").text
   end
 
   def away_goal_time
-    @away_goal_time ||= doc.css("div[data-home-away='away'] ul[data-event-type='goal'] span").text
+    @away_goal_time = doc.css("div[data-home-away='away'] ul[data-event-type='goal'] span").text
   end
 
   def report
-    @report ||= doc.css("div.article-body p").text
+    @report = doc.css("div.article-body p").text.strip
   end
 
   def doc
-    @doc ||= Nokogiri::HTML(open(self.url))
+    @doc = Nokogiri::HTML(open(self.url))
   end
 
 end

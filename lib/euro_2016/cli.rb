@@ -15,13 +15,17 @@ class Euro2016::CLI
 
   def print_details(game)
     puts "Score"
-    puts "#{game.home_team} - #{game.away_team}"
+    puts ""
+    puts "#{game.home_team_name}: #{game.home_team_score}"
+    puts "#{game.away_team_name}: #{game.away_team_score}"
     puts ""
     puts "Goals"
-    puts "#{game.home_goals} - #{game.away_goals}"
-    puts "#{game.home_goal_time} - #{game.away_goal_time}"
+    puts ""
+    puts "#{game.home_team_name}: #{game.home_goals}"
+    puts "#{game.away_team_name}: #{game.away_goals}"
     puts ""
     puts "Report"
+    puts ""
     puts "#{game.report}"
   end
 
@@ -29,10 +33,10 @@ class Euro2016::CLI
     input = nil
     while input != "exit"
         puts "Enter the number for the details of the game"
-        puts "Type games to view most recent games again"
+        puts "Type back to view games again"
         puts "Type exit to exit"
       input = gets.strip.downcase
-      if input == "games"
+      if input == "back"
         list_games
       elsif input.to_i > 0
         game = Euro2016::Game.find(input.to_i)
