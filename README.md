@@ -1,28 +1,14 @@
 # Euro2016
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/euro_2016`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem provides a CLI to view details scraped from ESPNFC of the most recent games of the Euro 2016 soccer tournament.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'euro_2016'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install euro_2016
+Install this gem via 'gem install euro_2016'.
 
 ## Usage
 
-TODO: Write usage instructions here
+Run 'euro-2016' after installing this gem and follow the on screen prompts.
 
 ## Development
 
@@ -38,4 +24,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
