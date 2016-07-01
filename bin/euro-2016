@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
 
-require './lib/euro_2016'
+require '../lib/euro_2016'
 
 Euro2016::CLI.new.call
