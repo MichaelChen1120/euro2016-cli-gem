@@ -16,7 +16,6 @@ class Euro2016::Game
     teams=games.css("div.team-name span").collect do |team|
       team.text
     end
-    t=Array.new
     @game_1 = "#{teams[0]} vs #{teams[1]}"
     @game_2 = "#{teams[2]} vs #{teams[3]}"
     @game_3 = "#{teams[4]} vs #{teams[5]}"
