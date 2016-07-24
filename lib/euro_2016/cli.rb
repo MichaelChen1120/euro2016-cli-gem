@@ -1,10 +1,22 @@
 class Euro2016::CLI
 
   def call
-    puts "Most recent Euro 2016 games:"
+    puts "Euro 2016 game results"
+    dates
     list_games
     menu
     goodbye
+  end
+
+  def dates
+    puts "Pick a date to view games from:"
+    puts ""
+    Euro2016::Date.dates.each.with_index(1) do |date, i|
+      puts "#{i}. #{date}"
+    end
+    input = gets.strip.to_i
+    date = Euro2016::Date.find(input.to_i)
+    print_date(date)
   end
 
   def list_games
