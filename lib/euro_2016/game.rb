@@ -7,8 +7,8 @@ class Euro2016::Game
     @url=url
   end
 
-  def self.scrape_games
-    doc=Nokogiri::HTML(open("http://www.espnfc.us/european-championship/74/scores"))
+  def self.scrape_games(date)
+    doc=Nokogiri::HTML(open("http://www.espnfc.us/european-championship/74/scores?date=2016" + "#{date}"))
     games=doc.css("div.score-box")
     links=games.css("a.primary-link").collect do |game|
       game.attribute("href").text
@@ -17,9 +17,6 @@ class Euro2016::Game
       team.text
     end
 
-    teamsiterator.with_index do |team, index|
-      game links[index]
-    end
     @game_1 = "#{teams[0]} vs #{teams[1]}"
     @game_2 = "#{teams[2]} vs #{teams[3]}"
     @game_3 = "#{teams[4]} vs #{teams[5]}"
@@ -47,15 +44,11 @@ class Euro2016::Game
   end
 
   def self.all
-    @@all = scrape_games
+    @@all = scrape_games(date)
   end
 
   def self.find(id)
     self.all[id-1]
-  end
-
-  def self.find_by_date(date)
-
   end
 
   def team_name(arg)
@@ -114,35 +107,15 @@ class Euro2016::Game
 #7/10
 
 def self.dates
-  @all=["06/10","06/11","06/12","06/13","06/14","06/15","06/17","06/18","06/19","06/20","06/21","06/22","06/25","06/26","07/01","07/02","07/03","07/06","07/07","07/10"]
+  @dates=["06/10","06/11","06/12","06/13","06/14","06/15","06/17","06/18","06/19","06/20","06/21","06/22","06/25","06/26","07/01","07/02","07/03","07/06","07/07","07/10"]
 end
 
-def self.list_of_dates
-  @group_stage_games=["6/10","6/11","6/12","6/13","6/14","6/15","6/17","6/18","6/19","6/20","6/21","6/22"]
-  @second_round_games=["6/25","6/26"]
-  @quarter_finals=["7/1","7/2","7/3"]
-  @semi_finals=["7/6","7/7"]
-  @finals=["7/10"]
+def self.find_by_date(id)
+  @@date=self.dates[id-1].gsub("/","")
 end
 
-def self.group_stage_games
-  @group_stage_games=["6/10","6/11","6/12","6/13","6/14","6/15","6/17","6/18","6/19","6/20","6/21","6/22"]
-end
-
-def self.second_round_games
-  @second_round_games=["6/25","6/26"]
-end
-
-def self.quarter_finals
-  @quarter_finals=["7/1","7/2","7/3"]
-end
-
-def self.semi_finals
-  @semi_finals=["7/6","7/7"]
-end
-
-def self.finals
-  @finals=["7/10"]
+def self.date
+  @@date
 end
 
 end
