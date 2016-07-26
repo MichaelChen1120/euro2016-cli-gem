@@ -17,29 +17,9 @@ class Euro2016::Game
       team.text
     end
 
-    @game_1 = "#{teams[0]} vs #{teams[1]}"
-    @game_2 = "#{teams[2]} vs #{teams[3]}"
-    @game_3 = "#{teams[4]} vs #{teams[5]}"
-    @game_4 = "#{teams[6]} vs #{teams[7]}"
-    @link_1 = "#{links[0]}"
-    @link_2 = "#{links[1]}"
-    @link_3 = "#{links[2]}"
-    @link_4 = "#{links[3]}"
-    all=Array.new
-    t_1 = [@game_1,@link_1]
-    all << t_1
-    if @link_2 != ""
-    t_2 = [@game_2,@link_2]
-    all << t_2
-    end
-    if @link_3 != ""
-    t_3 = [@game_3,@link_3]
-    all << t_3
-    end
-    if @link_4 != ""
-    t_4 = [@game_4,@link_4]
-    all << t_4
-    end
+    new_games = teams.each_slice(2).to_a
+    names = new_games.collect {|a,b| ["#{a} vs #{b}"]}
+    all = names.zip links
     all.collect {|g,l| new(g,l)}
   end
 
@@ -54,6 +34,10 @@ class Euro2016::Game
   def team_name(arg)
     string = "div[class='team " + arg + " '] span.long-name"
     doc.css(string).text
+  end
+
+  def home_team_name
+    @home_team_name = doc.css("div[class='team away '] span.long-name").text
   end
 
   def away_team_name

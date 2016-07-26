@@ -47,6 +47,12 @@ class Euro2016::CLI
     puts "Report"
     puts ""
     puts "#{game.report}"
+    puts ""
+    puts "Type back to view games again"
+    input=gets.strip.downcase
+    if input == "back"
+      list_games
+    end
   end
 
   def menu
@@ -77,12 +83,6 @@ class Euro2016::CLI
     elsif input.to_i > 0
       game = Euro2016::Game.find(input.to_i)
         print_details(game)
-        input=gets.strip.downcase
-        if input == "back"
-          list_games
-        end
-      else input == "exit"
-        goodbye
       end
   end
 
