@@ -2,23 +2,22 @@ class Euro2016::CLI
 
   def call
     puts "Euro 2016 game results"
-    dates
-    view_games
-    games
-    goodbye
+    start
   end
 
-  def dates
+  def start
     puts "Pick a date to view games from:"
     puts ""
     print_dates
+    view_games
+    list_games
+    games
   end
 
   def view_games
     input=gets.strip
     date = Euro2016::Game.find_by_date(input.to_i).gsub("/","")
     Euro2016::Game.scrape_games(date)
-    list_games
   end
 
   def list_games
@@ -48,42 +47,22 @@ class Euro2016::CLI
     puts ""
     puts "#{game.report}"
     puts ""
-    puts "Type back to view games again"
+    puts "Would you like to see another game? Enter Y/N"
     input=gets.strip.downcase
-    if input == "back"
-      list_games
-    end
-  end
-
-  def menu
-    input = nil
-    while input != "exit"
-        puts "Enter the number for the details of the game"
-        puts "Type back to view games again"
-        puts "Type exit to exit"
-      input = gets.strip.downcase
-      if input == "back"
-        dates
-      elsif input == "games"
-        list_games
-      elsif input.to_i > 0
-        game = Euro2016::Game.find(input.to_i)
-          print_details(game)
-      end
+    if input == "y"
+      start
+    else
+      puts ""
+      goodbye
+      exit
     end
   end
 
   def games
     puts "Enter the number for the details of the game"
-    puts "Type back to return to the dates of games"
-    puts "Type exit to exit"
     input=gets.strip.downcase
-    if input == "back"
-      dates
-    elsif input.to_i > 0
-      game = Euro2016::Game.find(input.to_i)
-        print_details(game)
-      end
+    game = Euro2016::Game.find(input.to_i)
+    print_details(game)
   end
 
   def goodbye
