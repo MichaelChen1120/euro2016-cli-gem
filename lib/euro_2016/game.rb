@@ -1,6 +1,6 @@
 class Euro2016::Game
 
-  attr_accessor :name, :url, :home_team, :away_team, :score, :home_goals, :home_goal_time, :away_goals, :away_goal_time, :report
+  attr_accessor :name, :url
 
   def initialize(name=nil, url=nil)
     @name=name
